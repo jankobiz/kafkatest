@@ -1,27 +1,32 @@
 class InnerClass {
-    private innerMessage: string | undefined;
+    private innerMessage: string;
+    constructor(message: string) {
+        this.innerMessage = message;
+    }
     public provideMessage(): string {
-        this.innerMessage = 'Provided messsage!';
+        // this.innerMessage = 'Provided messsage!';
         return this.innerMessage;
     }
 }
+
+type IInnerClass = new (message: string) => InnerClass;
 // tslint:disable-next-line:max-classes-per-file
 class Service {
 
-    private message: string;
+    private message: string | undefined;
 
     constructor(message: string) {
         this.message = message;
     }
 
-    public writeMessage() {
+    public writeMessage(IC: IInnerClass) {
 
-        const innerObject = new InnerClass();
+        const innerObject = new IC('IIInstantiated class!');
         // tslint:disable-next-line:no-console
-        console.log(this.message + innerObject.provideMessage());
+        console.log(`${this.message} ${innerObject.provideMessage()}`);
     }
 
 }
 
 let service = new Service('Hello World!');
-service.writeMessage();
+service.writeMessage(InnerClass);
