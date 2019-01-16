@@ -9,7 +9,9 @@ class InnerClass {
     }
 }
 
-type IInnerClass = new (message: string) => InnerClass;
+interface IInnerClass {
+    new (message: string): InnerClass;
+}
 // tslint:disable-next-line:max-classes-per-file
 class Service {
 
@@ -21,7 +23,7 @@ class Service {
 
     public writeMessage(IC: IInnerClass) {
 
-        const innerObject = new IC('IIInstantiated class!');
+        const innerObject = new IC('Instantiated class!');
         // tslint:disable-next-line:no-console
         console.log(`${this.message} ${innerObject.provideMessage()}`);
     }
